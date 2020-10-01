@@ -77,3 +77,5 @@ If everything is implemented correct your images should look like this:
 <img src="./doc/phong_no_shadows.jpg" alt="Phong Shading without shadows" width="400px"/> <img src="./doc/phong.jpg" alt="Phong Shading with shadows" width="400px"/>
 
 ## Problem 2.6
+### Reflection (Points 25)
+
