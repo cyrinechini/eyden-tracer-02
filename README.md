@@ -8,12 +8,13 @@ Please put your name (or names if you work in a group) here:
 1. Fork the current repository
 2. Study the new framework-code of 
     - IShader.h, ShaderFlat.h, ShaderEyeLight.h, ShaderPhong.h
-    - ILight.h, LightPoint.h, LightArea.h 
+    - ILight.h, LightPoint.h 
     - Scene.h and main.cpp
-3. A pointer ```CPrim* hit``` is now contained in your ```Ray``` structure. After a ray has been successfully intersected with a primitive, store the primitive’s address in ```hit``` (if the hit ditance is smaller than ```ray.t```).
-4. In the class ```CScene``` you find a method ```void Add(const std::shared_ptr<CPrim> pPrim)```. Change your code accordingly using the appropriate vector defined in the class.
-5. Rather then intersecting each primitive in the main function we will now use the ```bool Intersect(Ray& ray) const``` method of the ```Scene``` class. After modification the method should iterate over all primitives, intersect them and return true or false depending on if we had a valid hit with the scene data or not.
-6. The loop of main.cpp calls the ```CScene::RayTrace(Ray& ray)``` method. This method should call ```bool Intersect(Ray& ray) ``` and depending on a hit or not return a white or black color.
+3. A pointer ```std::shared_ptr<const IPrim> hit``` is now contained in your ```Ray``` structure. After a ray has been successfully intersected with a primitive, store the primitive’s address in ```hit``` (if the hit ditance is smaller than ```ray.t```).
+4. In the class ```CScene``` you find a method ```void add(const ptr_camera_t pCamera)```. Change your code accordingly using the appropriate vector defined in the class. See also method ```CScene::getActiveCamera()``` to understand how the member-variable ```m_activeCamera```should be also initialized.
+5. In the class ```CScene``` you find a method ```void add(const ptr_prim_t pPrim)```. Change your code accordingly using the appropriate vector defined in the class.
+6. Rather then intersecting each primitive in the main function we will now use the ```bool intersect(Ray& ray) const``` method of the ```Scene``` class. After modification the method should iterate over all primitives, intersect them and return true or false depending on if we had a valid hit with the scene data or not.
+7. The loop of main.cpp calls the ```CScene::RayTrace(Ray& ray)``` method. This method should call ```bool intersect(Ray& ray)``` and depending on a hit or not return a white or black color.
 
 ## Problem 2
 ### The Surface-Shader Concept (Points 10 + 10)
