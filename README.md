@@ -1,7 +1,7 @@
 # Practical Assignment 2
 **Dealine**: 15.10.2020
 
-Please put your name (or names if you work in a group) here:  
+Please put your name here:  
 **Name**: .......
 ## Problem 1
 ### Encapsulate camera and primitives from main application logic (Points 5)
