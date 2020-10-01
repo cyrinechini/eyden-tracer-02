@@ -21,5 +21,7 @@ public:
 	 * @param ray The ray
 	 * @return The color of the hit objesct
 	 */
-	virtual Vec3f Shade(const Ray& ray) const = 0;
+	virtual Vec3f shade(const Ray& ray) const = 0;
 };
+
+using ptr_shader_t = std::shared_ptr<IShader>;

@@ -2,21 +2,23 @@
 // Written by Sergey Kosov in 2005 for Rendering Competition
 #pragma once
 
-#include "Prim.h"
+#include "IPrim.h"
 
+// ================================ Infinite Plane Primitive Class ================================
 /**
- * @brief The Plane Geaometrical Primitive class
+ * @brief The Plane Geometrical Primitive class
  */
-class CPrimPlane : public CPrim
+class CPrimPlane : public IPrim
 {
 public:
 	/**
 	 * @brief Constructor
+	 * @param pShader Pointer to the shader to be applied for the prim
 	 * @param origin Point on the plane
 	 * @param normal Normal to the plane
 	 */
-	CPrimPlane(Vec3f origin, Vec3f normal, std::shared_ptr<IShader> pShader)
-		: CPrim(pShader)
+	CPrimPlane(ptr_shader_t pShader, Vec3f origin, Vec3f normal)
+		: IPrim(pShader)
 		, m_normal(normal)
 		, m_origin(origin)
 	{
@@ -24,15 +26,16 @@ public:
 	}
 	virtual ~CPrimPlane(void) = default;
 
-	virtual bool Intersect(Ray& ray) override
+	virtual bool intersect(Ray& ray) const override
 	{
-		float t = (m_origin - ray.org).dot(m_normal) / ray.dir.dot(m_normal);
-		if (t < Epsilon || t > ray.t) return false;
-		ray.t = t;
+		float dist = (m_origin - ray.org).dot(m_normal) / ray.dir.dot(m_normal);
+		if (dist < Epsilon || isinf(dist) || dist > ray.t) return false;
+		
+		ray.t = dist;
 		return true;
 	}
 	
-	virtual Vec3f GetNormal(const Ray& ray) const override
+	virtual Vec3f getNormal(const Ray& ray) const override
 	{
 		// --- PUT YOUR CODE HERE ---
 		return Vec3f();

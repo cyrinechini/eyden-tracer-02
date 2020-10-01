@@ -1,30 +1,34 @@
-// Triangle Geaometrical Primitive class
+// Triangle Geometrical Primitive class
 // Written by Sergey Kosov in 2005 for Rendering Competition
 #pragma once
 
-#include "Prim.h"
+#include "IPrim.h"
 
+// ================================ Triangle Primitive Class ================================
 /**
- * @brief Triangle Geaometrical Primitive class
+ * @brief Triangle Geometrical Primitive class
  */
-class CPrimTriangle : public CPrim
+class CPrimTriangle : public IPrim
 {
 public:
 	/**
 	 * @brief Constructor
+	 * @param pShader Pointer to the shader to be applied for the prim
 	 * @param a Position of the first vertex
 	 * @param b Position of the second vertex
 	 * @param c Position of the third vertex
 	 */
-	CPrimTriangle(Vec3f a, Vec3f b, Vec3f c, std::shared_ptr<IShader> pShader)
-		: CPrim(pShader)
+	CPrimTriangle(ptr_shader_t pShader, const Vec3f& a, const Vec3f& b, const Vec3f& c)
+		: IPrim(pShader)
 		, m_a(a)
 		, m_b(b)
 		, m_c(c)
-  	{}
+		, m_edge1(b - a)
+		, m_edge2(c - a)
+	{}
 	virtual ~CPrimTriangle(void) = default;
 	
-	virtual bool Intersect(Ray& ray) override
+	virtual bool intersect(Ray& ray) const override
 	{
 		const Vec3f edge1 = m_b - m_a;
 		const Vec3f edge2 = m_c - m_a;
@@ -57,14 +61,16 @@ public:
 		return true;
 	}
 
-	virtual Vec3f GetNormal(const Ray& ray) const override
+	virtual Vec3f getNormal(const Ray& ray) const override
 	{
 		// --- PUT YOUR CODE HERE ---
 		return Vec3f();
 	}
 	
 private:
-	Vec3f m_a;	///< Position of the first vertex
-	Vec3f m_b;	///< Position of the second vertex
-	Vec3f m_c;	///< Position of the third vertex
+	Vec3f m_a;		///< Position of the first vertex
+	Vec3f m_b;		///< Position of the second vertex
+	Vec3f m_c;		///< Position of the third vertex
+	Vec3f m_edge1;	///< Edge AB
+	Vec3f m_edge2;	///< Edge AC
 };

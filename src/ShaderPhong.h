@@ -26,7 +26,7 @@ public:
 	{}
 	virtual ~CShaderPhong(void) = default;
 
-	virtual Vec3f Shade(const Ray& ray) const override
+	virtual Vec3f shade(const Ray& ray) const override
 	{
 		// --- PUT YOUR CODE HERE ---
 		return RGB(0, 0, 0);

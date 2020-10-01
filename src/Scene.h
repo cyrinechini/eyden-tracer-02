@@ -1,9 +1,12 @@
+// Scene class
+// Written by Sergey Kosov in 2019 for Jacobs University
 #pragma once
 
 #include "ILight.h"
-#include "Prim.h"
+#include "IPrim.h"
 #include "CameraPerspective.h"
 
+// ================================ Scene Class ================================
 /**
  * @brief Scene class
  */
@@ -17,7 +20,6 @@ public:
 	 */
 	CScene(Vec3f bgColor = RGB(0,0,0))
 		: m_bgColor(bgColor)
-		, m_pCamera(std::make_unique<CCameraPerspective>(Vec3f(0,0,8), Vec3f(0,0,-1), Vec3f(0,1,0), 60, Size(800, 600)))
 	{}
   	~CScene(void) = default;
   
@@ -25,7 +27,7 @@ public:
 	 * @brief Adds a new primitive to the scene
 	 * @param prim Pointer to the primitive
 	 */
-	void Add(const std::shared_ptr<CPrim> pPrim)
+	void add(const ptr_prim_t pPrim)
 	{
 		// --- PUT YOUR CODE HERE ---
 	}
@@ -33,18 +35,31 @@ public:
 	 * @brief Adds a new light to the scene
 	 * @param pLight Pointer to the light
 	 */
-	void Add(const std::shared_ptr<ILight> pLight)
+	void add(const ptr_light_t pLight)
 	{
 		// --- PUT YOUR CODE HERE ---
 	}
-  
+	/**
+	 * @brief Adds a new camera to the scene and makes it to ba active
+	 * @param pCamera Pointer to the camera
+	 */
+	void add(const ptr_camera_t pCamera)
+	{
+		// --- PUT YOUR CODE HERE ---
+	}
+	/**
+	 * @brief Returns the active camera
+	 * @retval ptr_camera_t The pointer to active camera
+	 * @retval nullptr If there are no cameras added yet into the scene
+	 */
+	ptr_camera_t getActiveCamera(void) const { return m_vpCameras.empty() ? nullptr : m_vpCameras.at(m_activeCamera); }
 	/**
 	 * @brief Checks intersection of ray \b ray with all contained objects
 	 * @param ray The ray
 	 * @retval true If ray \b ray intersects any object
 	 * @retval false otherwise
 	 */
-	bool Intersect(Ray& ray) const
+	bool intersect(Ray& ray) const
 	{
 		// --- PUT YOUR CODE HERE ---
 		return false;
@@ -53,7 +68,7 @@ public:
 	/**
 	 * find occluder
 	 */
-	bool Occluded(Ray& ray)
+	bool occluded(Ray& ray)
 	{
 		// --- PUT YOUR CODE HERE ---
 		return false;
@@ -70,11 +85,10 @@ public:
 	}
 
 
-public:
-	std::unique_ptr<CCameraPerspective>		m_pCamera;
-	std::vector<std::shared_ptr<ILight>>	m_vpLights;						///< lights
-	
 private:
-	Vec3f									m_bgColor	= RGB(0, 0, 0);    	///< background color
-	std::vector<std::shared_ptr<CPrim>> 	m_vpPrims;						///< primitives
+	Vec3f						m_bgColor;    			///< background color
+	std::vector<ptr_prim_t> 	m_vpPrims;				///< primitives
+	std::vector<ptr_light_t>	m_vpLights;				///< lights
+	std::vector<ptr_camera_t>	m_vpCameras;			//< Cameras
+	size_t						m_activeCamera	= 0;	//< The index of the active camera
 };
