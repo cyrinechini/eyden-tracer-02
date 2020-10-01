@@ -16,6 +16,10 @@ Please put your name here:
 6. Rather then intersecting each primitive in the main function we will now use the ```bool intersect(Ray& ray) const``` method of the ```Scene``` class. After modification the method should iterate over all primitives, intersect them and return true or false depending on if we had a valid hit with the scene data or not.
 7. The loop of main.cpp calls the ```CScene::RayTrace(Ray& ray)``` method. This method should call ```bool intersect(Ray& ray)``` and depending on a hit or not return a white or black color.
 
+If the test scene specified in main.cpp is rendered with these two shaders it should look like:
+    
+<img src="./doc/bool.jpg" alt="Boolean Shading" width="400px">
+
 ## Problem 2
 ### The Surface-Shader Concept (Points 10 + 10)
 A _surface-shader_ is a small program that is assigned to a primitive and is responsible for computing the color of each ray hitting this primitive. For example, a _flat shader_ might just return a constant color for a primitive, whereas another shader might compute more complex effects such as lighting, shadows, or texturing.
