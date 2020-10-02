@@ -84,5 +84,23 @@ If everything is implemented correct your images should look like this:
 <img src="./doc/phong_no_shadows.jpg" alt="Phong Shading without shadows" width="400px"/> <img src="./doc/phong.jpg" alt="Phong Shading with shadows" width="400px"/>
 
 ## Problem 5
-### Reflection (Points 25)
+### Reflection | Recursive Raytracing (Points 25)
+Now we will implement a _perfect mirror_ material with the ```CShaderMirror``` shader. Perfect mirror has no own color and reflects all the rays, thus in constructor it takes only a reference to the scene. Please implement the ```CShaderMirror::shade(const Ray& ray)``` method. To do so you need to calculate two verctors:
+- **N**: Shading normal  
+- **R**: Reflected incident ray direction (must point away from the surface)
 
+and use scene object to trace recursively the reflected ray with ```CScene::rayTrace(Ray& ray)```method. 
+
+Once you implement everything correct the rendered image should look like:
+
+<kbd>   
+<img src="./doc/mirror.jpg" alt="Boolean Shading" width="400px">
+</kbd>
+
+## Submission
+Please submit the assignment by making a pull request.
+**Important** : Please make sure that
+- No _extra files_ are submitted (except those, which were mentioned in the assignment)
+- The changes were made _only_ in those files where you were asked to write your code
+- The Continiouse Integration system (appVeyor) can build the submitted code
+- The rendered images are also submitted in the folder "renders" 
