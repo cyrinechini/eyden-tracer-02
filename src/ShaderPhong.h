@@ -2,8 +2,6 @@
 
 #include "ShaderFlat.h"
 
-class CScene;
-
 class CShaderPhong : public CShaderFlat
 {
 public:

@@ -48,6 +48,12 @@ public:
 		// --- PUT YOUR CODE HERE ---
 	}
 	/**
+	 * @brief Returns the container with all scene light source objects
+	 * @note This method is to be used only in OpenRT shaders
+	 * @return The vector with pointers to the scene light sources
+	 */
+	const std::vector<ptr_light_t>	getLights(void) const { return m_vpLights; }
+	/**
 	 * @brief Returns the active camera
 	 * @retval ptr_camera_t The pointer to active camera
 	 * @retval nullptr If there are no cameras added yet into the scene

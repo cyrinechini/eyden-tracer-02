@@ -9,6 +9,7 @@
 #include "ShaderFlat.h"
 #include "ShaderEyelight.h"
 #include "ShaderPhong.h"
+#include "ShaderMirror.h"
 
 #include "LightOmni.h"
 
@@ -41,6 +42,9 @@ Mat RenderFrame(void)
 //	auto shd5 = std::make_shared<CShaderPhong>(scene, RGB(0, 1, 1), 0.1f, 0.5f, 0.5f, 40); // cyan surface
 //	auto shd6 = std::make_shared<CShaderPhong>(scene, RGB(1, 1, 1), 0.1f, 0.5f, 0.5f, 40); // white surface
 
+	// Mirror shader
+	auto shdM = std::make_shared<CShaderMirror>(scene);
+	
 	// Add camera to scene
 	scene.add(std::make_shared<CCameraPerspective>(Size(800, 600), Vec3f(0,0,8), Vec3f(0,0,-1), Vec3f(0,1,0), 60));
 	
@@ -51,8 +55,8 @@ Mat RenderFrame(void)
 	scene.add(std::make_shared<CPrimPlane>(shd4, Vec3f(0, -1, 0), Vec3f(0, 1, 0)));
 	scene.add(std::make_shared<CPrimTriangle>(shd5, Vec3f(-2, 3, 1),Vec3f(1, 2, 1),Vec3f(3, 2.8f, 3)));
 
-	Vec3f pointLightIntensity(5, 5, 5);
-	Vec3f lightPosition1(0, 50, 0);
+	Vec3f pointLightIntensity(25, 25, 25);
+	Vec3f lightPosition1(0, 17.5f, 0);
 	Vec3f lightPosition2(-3, 5, +4);
 
 	// Add light sources to scene

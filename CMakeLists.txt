@@ -14,8 +14,8 @@ source_group("Source Files" FILES "src/main.cpp")
 source_group("Source Files\\Cameras" FILES "src/ICamera.h" "src/CameraPerspective.h")
 source_group("Source Files\\Lights" FILES "src/ILight.h" "src/LightOmni.h")
 source_group("Source Files\\Primitives" FILES "src/IPrim.h" "src/PrimSphere.h" "src/PrimPlane.h" "src/PrimTriangle.h")
-source_group("Source Files\\shaders" FILES "src/IShader.h" "src/ShaderFlat.h" "src/ShaderEyelight.h" "src/ShaderPhong.h")
-source_group("Source Files\\scene" FILES "src/Scene.h")
+source_group("Source Files\\Shaders" FILES "src/IShader.h" "src/ShaderFlat.h" "src/ShaderEyelight.h" "src/ShaderPhong.h" "src/ShaderMirror.h")
+source_group("Source Files\\Scene" FILES "src/Scene.h")
 source_group("Source Files\\utilities" FILES "src/ray.h" "src/random.h")
 
 # OpenCV package
