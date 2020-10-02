@@ -42,11 +42,11 @@ where _theta_ is the angle between the primitive surface normal and the ray dire
 
 ## Problem 3
 ### Phong Shading and Point Light sources (Points 30)
-In the last exercise we implemented two simple surface shaders, which do not take light sources into account. A more advanced surface shading concept, the _phong shading model_, utilizes light sources to increase the rendering realism and give objects a plastic like appearance. Before we can implement the ```CShaderPhong::Shade(const Ray& ray)``` method in ShaderPhong.h we have to implement a simple light source.
+In the last exercise we implemented two simple surface shaders, which do not take light sources into account. A more advanced surface shading concept, the _phong shading model_, utilizes light sources to increase the rendering realism and give objects a plastic like appearance. Before we can implement the ```CShaderPhong::shade(const Ray& ray)``` method in ShaderPhong.h we have to implement a simple light source.
 1. Implement a point light. Proceed as follows:
-    - Study the base interface class ```ILight```. Each light source which we will derive from it has to implement an ```ILight::Illuminate(Ray& ray)``` method.
-    - Implement the ```CScene::Add(std::shared_ptr<ILight> pLight)``` method.
-    - Implement the ```CLightPoint::Illuminate(Ray& ray)``` method. The method should calculate the light intensity, as described in the lecture, which hits the surface point from the light source as well as the direction vector from the surface point to the light source. The direction vector will be later used for shadow computations.
+    - Study the base interface class ```ILight```. Each light source which we will derive from it has to implement an ```ILight::illuminate(Ray& ray)``` method.
+    - Implement the ```CScene::add(const ptr_light_t pLight)``` method.
+    - Implement the ```CLightPoint::illuminate(Ray& ray)``` method. The method should calculate the light intensity, as described in the lecture, which hits the surface point from the light source as well as the direction vector from the surface point to the light source. The direction vector will be later used for shadow computations.
 2. Implement the _phong illumination model_
     - The value _L<sub>r</sub>_ returned by ```Vec3f CShaderPhong::Shade(const Ray& ray) const``` should be calculated according to:
     
@@ -77,8 +77,8 @@ In the last exercise we implemented two simple surface shaders, which do not tak
 ## Problem 4
 ### Shadows (Points 20)
 To add more realism to the phong model we want now to incorporate shadows into it. Proceed as follows:
-- Implement the method ```CScene::Occluded(Ray& ray)``` in the ```CScene``` class, which should check if something blocks the light.
-- Modify ```CShaderPhong::Shade(const Ray& ray)``` to check for occlusion.
+- Implement the method ```CScene::occluded(Ray& ray)``` in the ```CScene``` class, which should check if something blocks the light.
+- Modify ```CShaderPhong::shade(const Ray& ray)``` to check for occlusion.
 If everything is implemented correct your images should look like this:
 
 <img src="./doc/phong_no_shadows.jpg" alt="Phong Shading without shadows" width="400px"/> <img src="./doc/phong.jpg" alt="Phong Shading with shadows" width="400px"/>
