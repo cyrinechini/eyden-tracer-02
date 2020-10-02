@@ -16,9 +16,11 @@ Please put your name here:
 6. Rather then intersecting each primitive in the main function we will now use the ```bool intersect(Ray& ray) const``` method of the ```Scene``` class. After modification the method should iterate over all primitives, intersect them and return true or false depending on if we had a valid hit with the scene data or not.
 7. The loop of main.cpp calls the ```CScene::RayTrace(Ray& ray)``` method. This method should call ```bool intersect(Ray& ray)``` and depending on a hit or not return a white or black color.
 
-If the test scene specified in main.cpp is rendered with these two shaders it should look like:
-    
+ If you did everything correct the rendered image should look like:
+
+<kbd>   
 <img src="./doc/bool.jpg" alt="Boolean Shading" width="400px">
+</kbd>
 
 ## Problem 2
 ### The Surface-Shader Concept (Points 10 + 10)
@@ -26,15 +28,15 @@ A _surface-shader_ is a small program that is assigned to a primitive and is res
 
 In this exercise, you will add some missing parts of the given basic shader framework to your ray tracer and implement two simple shaders:
 1. Implement a simple flat shader. Proceed as follows:
-    - The shader class has a pure virtual function ```Vec3f IShader::Shade(Ray& ray)``` , which has to be implemented in all derived shaders.
-    - Implement the ```CShaderFlat::Shade(const Ray& ray)``` method. The method should just return the color passed in the constructor of ```CShaderFlat```.
-    - Each primitive has a pointer ```std::shared_ptr<IShader> m_pShader```, which you can obtain via ```IShader::getShader()``` function in the new framework and a corresponding modified Constructor definition. Adjust the Constructor code appropriate. For example, our red sphere could be initialized using ```CSphere s1(Vec3f(-2.0f, 1.7f, 0), 2, std::make_shared<CShaderFlat>(RGB(1, 0, 0)));```. As we will see later some shaders need access to the scene data (_e.g_ for light or shadow calculations), this is why these shaders gets a reference to the scene objects (_e.g._ ```CShaderPhong```).
-    - Finally, if, for instance, the primitive intersected by a ray has been stored in ```CPrim* hit```, the appropriate color can then be computed by calling ```hit->getShader()->Shade(ray)```; Change your code in ```CScene::RayTrace(Ray& ray)``` such that not black or white is returned but the color from the primitive with the closest hit or the background color if a ray does not hit a primitive.
-2. Implement the ```CShaderEyelight::Shade(const Ray& ray)``` method in the eye light shader, which uses the angle between the incoming ray and the surface normal at the hit point to achieve a better impression of the actual primitive’s shape. The resulting color should be calculated according to: 
+    - The shader class has a pure virtual function ```Vec3f IShader::shade(const Ray& ray)```, which has to be implemented in all derived shaders.
+    - Implement the ```CShaderFlat::shade(const Ray& ray)``` method. The method should just return the color passed in the constructor of ```CShaderFlat```.
+    - Each primitive has a pointer ```ptr_shader_t m_pShader```, which you can obtain via ```IShader::getShader()``` function in the new framework and a corresponding modified Constructor definition. Adjust the Constructor code appropriate. For example, our red sphere could be initialized using ```CSphere s1(std::make_shared<CShaderFlat>(RGB(1, 0, 0)), Vec3f(-2.0f, 1.7f, 0), 2);```. As we will see later some shaders need access to the scene data (_e.g_ for light or shadow calculations), this is why these shaders gets a reference to the scene objects (_e.g._ ```CShaderPhong```).
+    - Finally, if, for instance, the primitive intersected by a ray has been stored in ```std::shared_ptr<const IPrim>	hit``` (you can use ```ray.hit = shared_from_this();``` in intersection algorithms), the appropriate color can then be computed by calling ```hit->getShader()->shade(ray)```; Change your code in ```CScene::RayTrace(Ray& ray)``` such that not black or white is returned but the color from the primitive with the closest hit or the background color if a ray does not hit a primitive.
+2. Implement the ```CShaderEyelight::shade(const Ray& ray)``` method in the eye light shader, which uses the angle between the incoming ray and the surface normal at the hit point to achieve a better impression of the actual primitive’s shape. The resulting color should be calculated according to: 
 _result_ = |cos(_theta_)|·_color_
 where _theta_ is the angle between the primitive surface normal and the ray direction. As the shader now needs to know some information about the primitive (_i.e._ the surface normal), some modifications are necessary:
-    - Implement the ```Vec3f CPrim::GetNormal(const Ray& ray)``` method in all classes derived from ```CPrim```. ```GetNormal(const Ray& ray)``` should return the normalized normal of the primitive. The ray parameter passed to ```GetNormal(const Ray& ray)``` should be a ray that has been successfully intersected before, so you can assume that the intersection stored in this ray corresponds to the actual primitive. For example, ray.org + ray.t * ray.dir should be a point on the primitive.
-    - Implement the shading function ```CShaderEyelight::Shade(const Ray& ray)``` using ```ray.hit->GetNormal(ray)``` to retrieve the surface normal of the primitive. With the surface normal the above given formula can be applied. If the test scene specified in main.cpp is rendered with these two shaders it should look like:
+    - Implement the ```Vec3f CPrim::getNormal(const Ray& ray)``` method in all classes derived from ```IPrim```. ```getNormal(const Ray& ray)``` should return the normalized normal of the primitive. The ray parameter passed to ```getNormal(const Ray& ray)``` should be a ray that has been successfully intersected before, so you can assume that the intersection stored in this ray corresponds to the actual primitive. For example, ray.org + ray.t * ray.dir should be a point on the primitive.
+    - Implement the shading function ```CShaderEyelight::shade(const Ray& ray)``` using ```ray.hit->getNormal(ray)``` to retrieve the surface normal of the primitive. With the surface normal the above given formula can be applied. If the test scene specified in main.cpp is rendered with these two shaders it should look like:
     
 <img src="./doc/flat.jpg" alt="Flat Shading" width="400px"/> <img src="./doc/eye_light.jpg" alt="Eylight Shading" width="400px"/>
 
@@ -81,6 +83,6 @@ If everything is implemented correct your images should look like this:
 
 <img src="./doc/phong_no_shadows.jpg" alt="Phong Shading without shadows" width="400px"/> <img src="./doc/phong.jpg" alt="Phong Shading with shadows" width="400px"/>
 
-## Problem 2.6
+## Problem 5
 ### Reflection (Points 25)
 
