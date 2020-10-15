@@ -28,18 +28,18 @@ public:
 
 	virtual bool intersect(Ray& ray) const override
 	{
-		float dist = (m_origin - ray.org).dot(m_normal) / ray.dir.dot(m_normal);
-		if (dist < Epsilon || isinf(dist) || dist > ray.t) return false;
+		float temp = (m_origin - ray.org).dot(m_normal) / ray.dir.dot(m_normal);
 		
-		ray.t = dist;
-		return true;
+        if (temp < Epsilon || isinf(temp) || temp > ray.t)
+            return false;
+		
+		ray.t = temp;
+        ray.hit = shared_from_this();
+		
+        return true;
 	}
 	
-	virtual Vec3f getNormal(const Ray& ray) const override
-	{
-		// --- PUT YOUR CODE HERE ---
-		return Vec3f();
-	}
+	virtual Vec3f getNormal(const Ray& ray) const override{ return m_normal; }
 	
 private:
 	Vec3f m_normal;	///< Point on the plane

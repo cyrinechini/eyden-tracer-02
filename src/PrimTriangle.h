@@ -30,13 +30,12 @@ public:
 	
 	virtual bool intersect(Ray& ray) const override
 	{
-		const Vec3f edge1 = m_b - m_a;
-		const Vec3f edge2 = m_c - m_a;
 		
-		const Vec3f pvec = ray.dir.cross(edge2);
+		const Vec3f pvec = ray.dir.cross(m_edge2);
 		
-		const float det = edge1.dot(pvec);
-		if (fabs(det) < Epsilon) return false;
+		const float det = m_edge1.dot(pvec);
+		if (fabs(det) < Epsilon)
+            return false;
 		
 		const float inv_det = 1.0f / det;
 		
@@ -44,27 +43,29 @@ public:
 		float lambda = tvec.dot(pvec);
 		lambda *= inv_det;
 		
-		if (lambda < 0.0f || lambda > 1.0f) return false;
+		if (lambda < 0.0f || lambda > 1.0f)
+            return false;
 		
-		const Vec3f qvec = tvec.cross(edge1);
+		const Vec3f qvec = tvec.cross(m_edge1);
 		float mue = ray.dir.dot(qvec);
 		mue *= inv_det;
 		
-		if (mue < 0.0f || mue + lambda > 1.0f) return false;
+		if (mue < 0.0f || mue + lambda > 1.0f)
+            return false;
 		
-		float f = edge2.dot(qvec);
-		f *= inv_det;
-		if (ray.t <= f || f <  Epsilon  ) return false;
+		float temp = m_edge2.dot(qvec);
+		temp *= inv_det;
+		if (ray.t <= temp || temp <  Epsilon)
+            return false;
 		
-		ray.t = f;
-		
+		ray.t = temp;
+		ray.hit = shared_from_this();
 		return true;
 	}
 
 	virtual Vec3f getNormal(const Ray& ray) const override
 	{
-		// --- PUT YOUR CODE HERE ---
-		return Vec3f();
+        return normalize(m_edge1.cross(m_edge2));
 	}
 	
 private:

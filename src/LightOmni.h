@@ -23,8 +23,12 @@ public:
 
 	virtual std::optional<Vec3f> illuminate(Ray& ray) override
 	{
-		// --- PUT YOUR CODE HERE ---
-		return std::nullopt;
+        //direction vector from the surface point to the light source
+        ray.hit = NULL;
+        ray.t   = norm(m_org - ray.org) - Epsilon;
+        ray.dir = normalize(m_org - ray.org);
+    
+        return (1.0f / (ray.t * ray.t)) * m_intensity;
 	}
 
 
